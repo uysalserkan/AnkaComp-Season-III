@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #define SIZE 15
-// Prototype of the functions.
+bool gotIt = false;
+// Prototype and Implementation of the functions.
 int strSize(char usr_Inputs[SIZE])
 {
 	int size = 0;
@@ -21,7 +22,7 @@ void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE]);
 // Main Function
 int main()
 {
-	char usr_input[15] = "CN";
+	char usr_input[15];
 	char theList[SIZE][SIZE] = {
 		{'G', 'S', 'L', 'N', 'F', 'R', 'N', 'P', 'R', 'E', 'N', 'D', 'P', 'O', 'R'},
 		{'N', 'A', 'N', 'F', 'D', 'K', 'U', 'O', 'L', 'M', 'K', 'I', 'A', 'C', 'N'},
@@ -40,56 +41,43 @@ int main()
 		{'D', 'N', 'E', 'R', 'G', 'S', 'H', 'E', 'L', 'E', 'S', 'P', 'A', 'C', 'N'},
 
 	};
-	// scanf("%s",&usr_input);
+	scanf("%s", usr_input);
 	checkHorizontal(usr_input, theList);
+	checkVertical(usr_input,theList);
 	// printf("%p\n%s",&theList,usr_input);
 }
 
-//SOME ERROR LAST BODY ACN etc.
 void checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 {
+	bool status = false;
 	int string_size = strSize(usrValue);
 
-	for (size_t i = 0; i < SIZE; i++)
+	for (size_t i = 0; i < SIZE; i++) //Row
 	{
-
-		for (size_t j = 0; j < SIZE; j++)
+		int temp_str_size = 0;
+		for (size_t j = 0; j < SIZE; j++) //Column
 		{
 			if (rawPattern[i][j] == usrValue[0])
 			{
-				//Baş harfi sağdan sola kontrol edilecek.
 				int index = 0;
-
-				while (index < string_size)
+				for (size_t f = 0; f < string_size; f++)
 				{
-
 					if (rawPattern[i][j + index] == usrValue[index])
 					{
-						// printf("%c",rawPattern[i][j + index]);
 						index++;
-						if (index == string_size)
-						{
-							for (size_t f = 0; f < string_size; f++)
-							{
-								printf("%c", usrValue[f]);
-							}
-						}
 					}
-
-					else
+					if (index == string_size)
 					{
-						break;
+						status = true;
+						gotIt=true;
+						temp_str_size = string_size;
 					}
 				}
-				while (index != string_size && index > 0)
-				{
-					printf("*");
-					index--;
-				}
-				if (index == string_size)
-				{
-					j += string_size - 1;
-				}
+			}
+			if ((status == true) && (temp_str_size > 0))
+			{
+				printf("%c", rawPattern[i][j]);
+				temp_str_size--;
 			}
 			else
 			{
@@ -100,7 +88,7 @@ void checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 	}
 }
 
-//FIELD PART 
+//FIELD PART
 void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 {
 	bool status = false;
@@ -133,6 +121,7 @@ void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 							active_column = j;
 							active_row = i;
 							status = true;
+							gotIt=true;
 							// printf("%d", status);
 						}
 					}
@@ -144,7 +133,7 @@ void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 					}
 				}
 			}
-			 if ((status == true) && (i - active_row < string_size) && (j == active_column))
+			if ((status == true) && (i - active_row < string_size) && (j == active_column))
 			{
 				// printf("were here.");
 				printf("%c", rawPattern[i][j]);
