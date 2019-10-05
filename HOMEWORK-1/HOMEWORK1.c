@@ -1,8 +1,10 @@
 /*
-*  _______________________________
-* |		Comiler: GCC 7.4.0
-* |		Enviroment: Ubuntu 18.04.1|
-* |_______________________________|
+*  ____________________________________
+* |			Comiler: GCC 7.4.0        |
+* |		Enviroment: Ubuntu 18.04.1    |
+* | Before versionns can find multiple|
+* | words in the pattern but this not.|
+* |___________________________________|
 */
 
 #include <stdio.h>
@@ -60,7 +62,7 @@ bool checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 
 	for (size_t i = 0; i < SIZE; i++) //Row
 	{
-		int temp_str_size = 0;
+		//int temp_str_size = 0;
 		for (size_t j = 0; j < SIZE; j++) //Column
 		{
 			if (rawPattern[i][j] == usrValue[0])
@@ -152,7 +154,26 @@ bool checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 
 void printThePattern(char rawPatter[SIZE][SIZE], bool isFinded, bool isHorizontal, int stringSize)
 {
-	printf("founded.");
+//	int trap = stringSize;
+	// int temp_str_size = stringSize;
+	//using active_row and active_column.
+	for (size_t i = 0; i < SIZE; i++)
+	{
+		for (size_t j = 0; j < SIZE; j++)
+		{
+			if (isFinded == true && isHorizontal == true && i == active_row && j == active_column)
+			{
+				for (int f = 0; f < stringSize; f++)
+					printf("%c", rawPatter[i][j + f]);
+				j += stringSize;
+			}
+			if (isFinded == true && isHorizontal == false && j == active_column && i - active_row < stringSize)
+				printf("%c", rawPatter[i][j]);
+			else
+				printf("*");
+		}
+		printf("\n");
+	}
 }
 
 /*
