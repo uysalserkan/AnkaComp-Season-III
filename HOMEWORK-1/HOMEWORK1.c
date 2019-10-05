@@ -10,9 +10,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #define SIZE 15
-bool gotIt = false;
-int active_column = -1;
-int active_row = -1;
+int active_column;
+int active_row;
 
 // Prototype and Implementation of the functions.
 int strSize(char usr_Inputs[SIZE])
@@ -62,17 +61,16 @@ bool checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 
 	for (size_t i = 0; i < SIZE; i++) //Row
 	{
-		//int temp_str_size = 0;
 		for (size_t j = 0; j < SIZE; j++) //Column
 		{
-			if (rawPattern[i][j] == usrValue[0])
+			if (rawPattern[i][j] == usrValue[0]) //If match first latter
 			{
 				int index = 0;
 				for (size_t f = 0; f < string_size; f++)
 				{
-					if (rawPattern[i][j + index] == usrValue[index])
+					if (rawPattern[i][j + index] == usrValue[index]) //check other latters in while loop
 						index++;
-					if (index == string_size)
+					if (index == string_size) //if it's lenght match index size return true
 					{
 						active_row = i;
 						active_column = j;
@@ -80,44 +78,28 @@ bool checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 					}
 				}
 			}
-			// if ((status == true) && (temp_str_size > 0))
-			// {
-			// 	printf("%c", rawPattern[i][j]);
-			// 	temp_str_size--;
-			// }
-			// else
-			// {
-			// 	printf("*");
-			// }
 		}
-		// printf("\n");
 	}
 	return false;
 }
 
-//FIELD PART
 bool checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 {
-
 	int string_size = strSize(usrValue);
 	int index = 0;
 
-	for (size_t i = 0; i < SIZE; i++)
+	for (size_t i = 0; i < SIZE; i++) //Row
 	{
-
-		for (size_t j = 0; j < SIZE; j++)
+		for (size_t j = 0; j < SIZE; j++) //Column
 		{
-			if (rawPattern[i][j] == usrValue[0])
+			if (rawPattern[i][j] == usrValue[0]) //If match first latter
 			{
-
 				while ((index < string_size) && (index + i < 15))
 				{
-
-					if (rawPattern[i + index][j] == usrValue[index])
+					if (rawPattern[i + index][j] == usrValue[index]) //check other latters in while loop
 					{
-
 						index++;
-						if (index == string_size)
+						if (index == string_size) //if it's lenght match index size return true
 						{
 							//Confirmed Area..
 							active_column = j;
@@ -127,54 +109,37 @@ bool checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 					}
 
 					else
-
 						break;
 				}
 			}
-			// if ((status == true) && (i - active_row < string_size) && (j == active_column))
-			// {
-			// 	// printf("were here.");
-			// 	printf("%c", rawPattern[i][j]);
-			// 	if (i - active_row >= string_size)
-			// 		status = NULL;
-			// }
-			// else if ((active_column == -1 || active_row == -1) && index > 0)
-			// {
-			// 	printf("*");
-			// }
-			// else
-			// {
-			// 	printf("*");
-			// }
 		}
-		// printf("\n");
 	}
 	return false;
-}
+} //Function
 
 void printThePattern(char rawPatter[SIZE][SIZE], bool isFinded, bool isHorizontal, int stringSize)
 {
-//	int trap = stringSize;
-	// int temp_str_size = stringSize;
 	//using active_row and active_column.
 	for (size_t i = 0; i < SIZE; i++)
 	{
 		for (size_t j = 0; j < SIZE; j++)
 		{
+			//The golden shot is (j + = stringSize)
 			if (isFinded == true && isHorizontal == true && i == active_row && j == active_column)
 			{
 				for (int f = 0; f < stringSize; f++)
 					printf("%c", rawPatter[i][j + f]);
 				j += stringSize;
 			}
+			//The golden shot is (i - activerow < stringSize)
 			if (isFinded == true && isHorizontal == false && j == active_column && i - active_row < stringSize)
 				printf("%c", rawPatter[i][j]);
 			else
 				printf("*");
-		}
+		} //For-j
 		printf("\n");
-	}
-}
+	} //For-i
+} //Function
 
 /*
 * Read a word from user and search that word in the two-dimensional array.  
