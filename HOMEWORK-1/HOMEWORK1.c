@@ -1,12 +1,17 @@
 /*
-* Comiler: GCC 7.4.0
-* Enviroment: Ubuntu 18.04.1
+*  _______________________________
+* |		Comiler: GCC 7.4.0
+* |		Enviroment: Ubuntu 18.04.1|
+* |_______________________________|
 */
 
 #include <stdio.h>
 #include <stdbool.h>
 #define SIZE 15
 bool gotIt = false;
+int active_column = -1;
+int active_row = -1;
+
 // Prototype and Implementation of the functions.
 int strSize(char usr_Inputs[SIZE])
 {
@@ -16,8 +21,9 @@ int strSize(char usr_Inputs[SIZE])
 		size++;
 	return size;
 }
-void checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE]);
-void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE]);
+bool checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE]);
+bool checkVertical(char *usrValue, char rawPattern[SIZE][SIZE]);
+void printThePattern(char rawPatter[SIZE][SIZE], bool isFinded, bool isHorizontal, int stringSize);
 
 // Main Function
 int main()
@@ -42,14 +48,14 @@ int main()
 
 	};
 	scanf("%s", usr_input);
-	checkHorizontal(usr_input, theList);
-	checkVertical(usr_input,theList);
-	// printf("%p\n%s",&theList,usr_input);
+	checkHorizontal(usr_input, theList) ? printThePattern(theList, true, true, strSize(usr_input))
+										: "NOT FOUND!";
+	checkVertical(usr_input, theList) ? printThePattern(theList, true, false, strSize(usr_input))
+									  : "NOT FOUND!";
 }
 
-void checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
+bool checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 {
-	bool status = false;
 	int string_size = strSize(usrValue);
 
 	for (size_t i = 0; i < SIZE; i++) //Row
@@ -63,38 +69,35 @@ void checkHorizontal(char *usrValue, char rawPattern[SIZE][SIZE])
 				for (size_t f = 0; f < string_size; f++)
 				{
 					if (rawPattern[i][j + index] == usrValue[index])
-					{
 						index++;
-					}
 					if (index == string_size)
 					{
-						status = true;
-						gotIt=true;
-						temp_str_size = string_size;
+						active_row = i;
+						active_column = j;
+						return true;
 					}
 				}
 			}
-			if ((status == true) && (temp_str_size > 0))
-			{
-				printf("%c", rawPattern[i][j]);
-				temp_str_size--;
-			}
-			else
-			{
-				printf("*");
-			}
+			// if ((status == true) && (temp_str_size > 0))
+			// {
+			// 	printf("%c", rawPattern[i][j]);
+			// 	temp_str_size--;
+			// }
+			// else
+			// {
+			// 	printf("*");
+			// }
 		}
-		printf("\n");
+		// printf("\n");
 	}
+	return false;
 }
 
 //FIELD PART
-void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
+bool checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 {
-	bool status = false;
+
 	int string_size = strSize(usrValue);
-	int active_column = -1;
-	int active_row = -1;
 	int index = 0;
 
 	for (size_t i = 0; i < SIZE; i++)
@@ -105,52 +108,51 @@ void checkVertical(char *usrValue, char rawPattern[SIZE][SIZE])
 			if (rawPattern[i][j] == usrValue[0])
 			{
 
-				// printf("X");
-				//Baş harfi sağdan sola kontrol edilecek.
-
 				while ((index < string_size) && (index + i < 15))
 				{
 
 					if (rawPattern[i + index][j] == usrValue[index])
 					{
-						// printf("X");
+
 						index++;
 						if (index == string_size)
 						{
 							//Confirmed Area..
 							active_column = j;
 							active_row = i;
-							status = true;
-							gotIt=true;
-							// printf("%d", status);
+							return true;
 						}
 					}
 
 					else
-					{
 
 						break;
-					}
 				}
 			}
-			if ((status == true) && (i - active_row < string_size) && (j == active_column))
-			{
-				// printf("were here.");
-				printf("%c", rawPattern[i][j]);
-				if (i - active_row >= string_size)
-					status = NULL;
-			}
-			else if ((active_column == -1 || active_row == -1) && index > 0)
-			{
-				printf("*");
-			}
-			else
-			{
-				printf("*");
-			}
+			// if ((status == true) && (i - active_row < string_size) && (j == active_column))
+			// {
+			// 	// printf("were here.");
+			// 	printf("%c", rawPattern[i][j]);
+			// 	if (i - active_row >= string_size)
+			// 		status = NULL;
+			// }
+			// else if ((active_column == -1 || active_row == -1) && index > 0)
+			// {
+			// 	printf("*");
+			// }
+			// else
+			// {
+			// 	printf("*");
+			// }
 		}
-		printf("\n");
+		// printf("\n");
 	}
+	return false;
+}
+
+void printThePattern(char rawPatter[SIZE][SIZE], bool isFinded, bool isHorizontal, int stringSize)
+{
+	printf("founded.");
 }
 
 /*
