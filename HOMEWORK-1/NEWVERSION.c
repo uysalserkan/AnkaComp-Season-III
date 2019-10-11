@@ -54,7 +54,7 @@ int main()
 	{
 		printHorizontal(ARRAY, theSize(input));
 	}
-	if (findedVertical(ARRAY, input))
+	else if (findedVertical(ARRAY, input))
 	{
 		printVertical(ARRAY, theSize(input));
 	}
@@ -76,7 +76,7 @@ void printHorizontal(char theArray[THESIZE][THESIZE], int size)
 	{
 		for (size_t j = 0; j < THESIZE; j++)
 		{
-			if (i == horizontalStartIndexRow && j >= horizontalStartIndexColumn && j < horizontalStartIndexColumn + size)
+			if (i == horizontalStartIndexRow && j >= horizontalStartIndexColumn && j < horizontalStartIndexColumn + size )
 			{
 				printf("%c", theArray[i][j]);
 			}
