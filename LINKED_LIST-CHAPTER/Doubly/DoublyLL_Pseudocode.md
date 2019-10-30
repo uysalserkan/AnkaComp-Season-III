@@ -1,0 +1,121 @@
+# Doubly Linked List
+
+## Inser a New Node at The Beginnig
+
+`IF AVAUL = NULL`
+`-> EXIT`
+`SET NEWNODE = AVAIL`
+`SET AVAIL = AVAIL->NEXT`
+`SET NEWNODE->DATA = VAL`
+`SET NEWNODE ->PREV = NULL`
+`SET NEWNODE ->NEXT = START`
+`SET START ->PREV = NEWNODE`
+`EXIT`
+
+
+## Insert a New Node at The End
+
+`IF AVAUL = NULL`
+`-> EXIT`
+`SET NEWNODE = AVAIL`
+`SET AVAIL = AVAIL->NEXT`
+`SET NEWNODE->DATA = VAL`
+`SET PTR = START`
+`WHILE PTR ->NEXT != NULL`
+`-> SET PTR = PTR->NEXT`
+`[END OF THE LOOP]`
+`SET PTR->NEXT = NEWNODE`
+`SET NEWNODE ->PREV = PTR`
+`EXIT`
+
+
+## Insert a New Node After a Given Node
+
+`IF AVAUL = NULL`
+`-> EXIT`
+`SET NEWNODE = AVAIL`
+`SET AVAIL = AVAIL->NEXT`
+`SET NEWNODE->DATA = VAL`
+`SET PTR = START`
+`WHILE PTR ->NEXT != NULL`
+`-> SET PTR = PTR->NEXT`
+`[END OF THE LOOP]`
+`SET NEWNODE ->NEXT = PTR ->NEXT`
+`SET PTR ->NEXT = NEWNODE`
+`SET PTR ->NEXT->PREV = NEWNODE`
+`EXIT`
+
+
+## Insert a New Node Before a Given Node
+
+`IF AVAUL = NULL`
+`-> EXIT`
+`SET NEWNODE = AVAIL`
+`SET AVAIL = AVAIL->NEXT`
+`SET NEWNODE->DATA = VAL`
+`SET PTR = START`
+`WHILE PTR ->NEXT != NULL`
+`-> SET PTR = PTR->NEXT`
+`[END OF THE LOOP]`
+`SET NOWNODE ->NEXT = PTR`
+`SET NEWNODE->PREV = PTR->PREV`
+`SET PTR ->PREV = NEWNODE`
+`SET PTR ->PREV ->NEXT = NEWNODE`
+`EXIT`
+
+
+## Delete The First Node
+
+`IF START = NULL`
+`-->EXIT`
+`SET PTR = START`
+`SET START = START ->NEXT`
+`SET START ->PREV = NULL`
+`FREE PTR`
+`EXIT`
+
+
+## Delete The Last Node
+
+`IF START == NULL`
+`-->EXIT`
+`SET PTR = START`
+`WHILE PTR ->NEXT != NULL`
+`-->SET PTR = PTR ->NEXT`
+`[END OF THE LOOP]`
+`SET PTR ->PREV ->NEXT = NULL`
+`FREE PTR`
+`EXIT`
+
+
+## Delete a Node After a Given Node
+
+`IF START == NULL`
+`-->EXIT`
+`SET PTR = START`
+`WHILE PTR ->DATA != NUM`
+`--> SET PTR = PTR ->NEXT`
+`[END OF THE LOOP]`
+`SET TEMP = PTR ->NEXT`
+`SET PTR ->NEXT = TEMP ->NEXT`
+`SET TEMP ->NEXT ->PREV = PTR`
+`FREE TEMP`
+`EXIT`
+
+
+## Delete a Node Before a Given Node
+
+`IF START == NULL`
+`-->EXIT`
+`SET PTR = START`
+`WHILE PTR ->DATA != NUM`
+`-->SET PTTR = PTR ->NEXT`
+`[END OF THE LOOP]`
+`SET TEMP = PTR ->PREV`
+`SET TEMP ->PREV ->NEXT = PTR`
+`SET ĞTR ->PREV = TEMP ->PREV`
+`FREE TEMP`
+`EXIT`
+
+
+##
