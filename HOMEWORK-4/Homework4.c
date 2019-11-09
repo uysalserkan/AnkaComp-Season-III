@@ -238,6 +238,7 @@ void TransactionCustomers(QueueCustomers **customerHead, StackEmployees **employ
 	//! Tüm çalışanlar array'e atandı ve kontrol edildi.
 
 	int timer = 0;
+	//? burda patlıyor.
 	while ((*customerHead)->rear != NULL)
 	{
 		// printf("not bomb\n");
@@ -297,50 +298,50 @@ void TransactionCustomers(QueueCustomers **customerHead, StackEmployees **employ
 
 		//afterrr
 	}
-	int cur_time;
-	for (size_t i = 0; i < 6; i++)
-	{
-		if (arrEmployee[i]->aviable == false)
-		{
-			arrEmployee[i]->customerTakenTime = arrEmployee[i]->customerTakenTime - 1;
-			if (arrEmployee[i]->customerTakenTime == 0)
-			{
-				arrEmployee[i]->aviable = true;
-			}
-		}
-	}
+	// int cur_time;
+	// for (size_t i = 0; i < 6; i++)
+	// {
+	// 	if (arrEmployee[i]->aviable == false)
+	// 	{
+	// 		arrEmployee[i]->customerTakenTime = arrEmployee[i]->customerTakenTime - 1;
+	// 		if (arrEmployee[i]->customerTakenTime == 0)
+	// 		{
+	// 			arrEmployee[i]->aviable = true;
+	// 		}
+	// 	}
+	// }
 
-	//? çalışan varsa ilk azalt sonra kontrol et
-	cur_time = (*customerHead)->rear->comingTime;
-	// printf("\nCURRENT TIME: %d\n", cur_time);
-	int index = 0;
-	while ((*customerHead)->rear->comingTime == cur_time)
-	{
-		if (arrEmployee[index]->aviable == true)
-		{
-			arrEmployee[index]->aviable = false;
-			arrEmployee[index]->customerTakenTime = (*customerHead)->rear->takenTime;
-			arrEmployee[index]->totalTakenTime += (*customerHead)->rear->takenTime;
-			printf("%d\t%d\t%d\t%d\t%d\n",
-				   (*customerHead)->rear->customerId,
-				   arrEmployee[index]->employeeId,
-				   cur_time + timer,
-				   cur_time + timer + (*customerHead)->rear->takenTime,
-				   timer);
+	// //? çalışan varsa ilk azalt sonra kontrol et
+	// cur_time = (*customerHead)->rear->comingTime;
+	// // printf("\nCURRENT TIME: %d\n", cur_time);
+	// int index = 0;
+	// while ((*customerHead)->rear->comingTime == cur_time)
+	// {
+	// 	if (arrEmployee[index]->aviable == true)
+	// 	{
+	// 		arrEmployee[index]->aviable = false;
+	// 		arrEmployee[index]->customerTakenTime = (*customerHead)->rear->takenTime;
+	// 		arrEmployee[index]->totalTakenTime += (*customerHead)->rear->takenTime;
+	// 		printf("%d\t%d\t%d\t%d\t%d\n",
+	// 			   (*customerHead)->rear->customerId,
+	// 			   arrEmployee[index]->employeeId,
+	// 			   cur_time + timer,
+	// 			   cur_time + timer + (*customerHead)->rear->takenTime,
+	// 			   timer);
 
-			(*customerHead)->rear = (*customerHead)->rear->next;
-			// index++;
-		}
-		else
-		{
-			if (index < 6)
-				index++;
-			else
-			{
-				timer += 1;
-				// printf("we are here timer is: %d\n", timer);
-				break;
-			}
-		}
-	}
+	// 		(*customerHead)->rear = (*customerHead)->rear->next;
+	// 		// index++;
+	// 	}
+	// 	else
+	// 	{
+	// 		if (index < 6)
+	// 			index++;
+	// 		else
+	// 		{
+	// 			timer += 1;
+	// 			// printf("we are here timer is: %d\n", timer);
+	// 			break;
+	// 		}
+	// 	}
+	// }
 }
