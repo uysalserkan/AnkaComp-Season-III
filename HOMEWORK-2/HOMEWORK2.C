@@ -77,8 +77,8 @@ void createClasses(strctClass *head)
     while (i < 4)
     {
         /*
-        *Bunun sayesinde body değişkeni her defasında farklı address alıyor.
-        *Yani oluşturulan her body bir öncekinde farklı bir body oluyor. 
+         *Bunun sayesinde body değişkeni her defasında farklı address alıyor.
+         *Yani oluşturulan her body bir öncekinde farklı bir body oluyor. 
         */
 
         body = (strctClass *)malloc(sizeof(strctClass));
