@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 // TODO | The commentline function will make correct.
 
 /*
@@ -46,16 +47,21 @@ typedef struct linkedListNode LLNode;
 // LLNode *takeDataWithLinkedList(LLNode *head);
 LLNode *takeDataUnsortedLL(LLNode *head);
 void sortTheLL(LLNode *head);
+BinaryTree *createBTree(LLNode *head);
 void printLLNode(LLNode *head);
+int binaryTreeHeight(int BTSize);
 
 int main()
 {
     LLNode *head;
+    BinaryTree *BTHead;
     // head = (LLNode *)malloc(sizeof(LLNode));
     head = takeDataUnsortedLL(head);
     sortTheLL(head);
     // head = takeDataWithLinkedList(head);
     printLLNode(head);
+    printf("Nodesize: %d BinaryHeight: %d\n", nodeSize, binaryTreeHeight(nodeSize));
+    // BTHead = createBTree(head);
 }
 /*
 // !Error (Segmentation fault)
@@ -131,6 +137,14 @@ void printLLNode(LLNode *head)
         ptr = ptr->next;
     }
 }
+// *Works correct.
+int binaryTreeHeight(int BTSize)
+{
+    int n = 0;
+    while (pow(2, n)-1 < BTSize)
+        n++;
+    return n;
+}
 
 //* Works correnct
 void sortTheLL(LLNode *head)
@@ -155,4 +169,18 @@ void sortTheLL(LLNode *head)
         }
         ptr1 = ptr1->next;
     }
+}
+
+BinaryTree *createBTree(LLNode *head)
+{
+    BinaryTree *masterNode = (BinaryTree *)malloc(sizeof(BinaryTree));
+
+    LLNode BTArray[nodeSize];
+    for (size_t i = 0; i < nodeSize; i++)
+    {
+        BTArray[i] = *head;
+        head = head->next;
+    }
+
+    return masterNode;
 }
