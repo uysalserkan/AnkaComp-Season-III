@@ -1,7 +1,7 @@
 /*
 *  ____________________________________
 * |         Comiler: GCC 7.4.0        |
-* |     Enviroment: Ubuntu 18.04.1    |
+* |     Enviroment:  Debian 9.2.1-19  |
 * |                                   |
 * |    SERKAN                UYSAL    |
 * |      uysalserkan08@gmail.com      |
@@ -10,21 +10,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <math.h>
-// TODO | The commentline function will make correct.
-
-/*
- ? Binary level = ((2^(n+1))-1) <= Total Entry < ((2^n)-1)
- ? n = Binary level.
- ? Take the data as linkedlist with sorted.
-*/
-int nodeSize = 0;
 
 struct treeNode
 {
 	struct treeNode *left;
 	struct treeNode *right;
-	int activeHeight;
 	int value;
 	int identity;
 };
@@ -39,109 +29,115 @@ struct linkedListNode
 typedef struct treeNode BTNode;
 typedef struct linkedListNode LLNode;
 
-// LLNode *takeDataWithLinkedList(LLNode *head);
+int totalNode = 0;
 LLNode *takeDataUnsortedLL(LLNode *head);
+BTNode *GiveTheTree(BTNode *BTHead, LLNode *LLHead);
+BTNode *addNode2Tree(BTNode *head, LLNode data);
 void sortTheLL(LLNode *head);
-BTNode *createBTree(LLNode *head, int treeSize);
 void printLLNode(LLNode *head);
-int BTNodeHeight(int BTSize);
+void printBT(BTNode *BTHead, int activeHeight, int leftIs, int rootData);
+int btHeight(int);
+int realBTHeight(BTNode *);
 
 int main()
 {
-	LLNode *head;
-	BTNode *BTHead;
-	// head = (LLNode *)malloc(sizeof(LLNode));
-	head = takeDataUnsortedLL(head);
-	sortTheLL(head);
-	// head = takeDataWithLinkedList(head);
-	printLLNode(head);
-	printf("Nodesize: %d BinaryHeight: %d\n", nodeSize, BTNodeHeight(nodeSize));
-	BTHead = createBTree(head, nodeSize);
+	LLNode *LLhead = (LLNode *)malloc(sizeof(LLNode));
+	LLhead = takeDataUnsortedLL(LLhead);
+	BTNode *master = (BTNode *)malloc(sizeof(BTNode));
+	master = GiveTheTree(master, LLhead);
+	sortTheLL(LLhead);
+	printLLNode(LLhead);
+	printf("\n");
+	int masterHeight = realBTHeight(master);
+	if (masterHeight >= 1)
+	{
+		printBT(master, 1, -1, -1);
+		printf("\n");
+	}
+	if (masterHeight >= 2)
+	{
+		printBT(master, 2, -1, -1);
+		printf("\n");
+	}
+	if (masterHeight >= 3)
+	{
+		printBT(master, 3, -1, -1);
+		printf("\n");
+	}
+	if (masterHeight >= 4)
+	{
+		printBT(master, 4, -1, -1);
+		printf("\n");
+	}
+	if (masterHeight >= 5)
+	{
+		printBT(master, 5, -1, -1);
+		printf("\n");
+	}
+	if (masterHeight >= 6)
+	{
+		printBT(master, 6, -1, 0);
+		printf("\n");
+	}
+	if (masterHeight >= 7)
+	{
+		printBT(master, 7, -1, 0);
+		printf("\n");
+	}
+	if (masterHeight >= 8)
+	{
+		printBT(master, 8, -1, 0);
+		printf("\n");
+	}
 }
-/*
-// !Error (Segmentation fault)
-LLNode *takeDataWithLinkedList(LLNode *head)
-{
-    int usr_id, usr_val;
-    LLNode *main = (LLNode *)malloc(sizeof(LLNode));
-    main->identity = usr_id;
-    main->value = usr_val;
-    head = main;
-    scanf("%d %d", &usr_id, &usr_val);
-    while (usr_id != -1 && usr_val != -1)
-    {
-        LLNode *ptr = head;
-        LLNode *ptr_prev = (LLNode *)malloc(sizeof(LLNode));
-        LLNode *body = (LLNode *)malloc(sizeof(LLNode));
-        body->value = usr_val;
-        body->identity = usr_id;
 
-        if (usr_val > ptr->value)
-        {
-            while (ptr->value < usr_val)
-            {
-                ptr_prev = ptr;
-                ptr = ptr->next;
-                printf("\nsa");
-            }
-            ptr_prev->next = body;
-            body->next = ptr;
-        }
-        else
-        {
-            body->next = main;
-            main = body;
-        }
-        // ? value yi alacak eğer değer ptr'ın tuttuğu değerden küçükse ptr_prev ve ptr arasına yerleştirecek.
-        scanf("%d %d", &usr_id, &usr_val);
-    }
-    return head;
-}
-*/
-
-// *Works correct.
 LLNode *takeDataUnsortedLL(LLNode *head)
 {
 	int usr_id, usr_val;
 	scanf("%d %d", &usr_id, &usr_val);
-	LLNode *main = (LLNode *)malloc(sizeof(LLNode));
-	main->identity = usr_id;
-	main->value = usr_val;
-	head = main;
+	LLNode *polEli = (LLNode *)malloc(sizeof(LLNode));
+	polEli->identity = usr_id;
+	polEli->value = usr_val;
+	head = polEli;
 	scanf("%d %d", &usr_id, &usr_val);
 	while (usr_id != -1 && usr_val != -1)
 	{
 		LLNode *body = (LLNode *)malloc(sizeof(LLNode));
 		body->identity = usr_id;
 		body->value = usr_val;
-		main->next = body;
-		main = main->next;
+		polEli->next = body;
+		polEli = polEli->next;
 		scanf("%d %d", &usr_id, &usr_val);
 	}
 	return head;
 }
 
-// *Works correct.
-void printLLNode(LLNode *head)
+BTNode *GiveTheTree(BTNode *BTHead, LLNode *LLHead)
 {
-	LLNode *ptr = head;
-	while (ptr != NULL)
-	{
-		nodeSize++;
-		printf("%d %d\n", ptr->identity, ptr->value);
-		ptr = ptr->next;
-	}
-}
-// *Works correct.
-int BTNodeHeight(int BTSize)
-{
-	int n = 0;
-	while (pow(2, n) - 1 < BTSize)
-		n++;
-	return n;
+	for (; LLHead != NULL; LLHead = LLHead->next)
+		BTHead = addNode2Tree(BTHead, *LLHead);
+
+	return BTHead;
 }
 
-//* Works correnct
+BTNode *addNode2Tree(BTNode *head, LLNode data)
+{
+	if (head == NULL || head->value == 0)
+	{
+		head = (BTNode *)malloc(sizeof(BTNode));
+		head->identity = data.identity;
+		head->value = data.value;
+	}
+	else if (head->value > data.value)
+
+		head->left = addNode2Tree(head->left, data);
+
+	else
+		head->right = addNode2Tree(head->right, data);
+
+	return head;
+}
+
 void sortTheLL(LLNode *head)
 {
 	int val, id;
@@ -166,49 +162,53 @@ void sortTheLL(LLNode *head)
 	}
 }
 
-BTNode *createBTree(LLNode *head, int treeSize)
+void printLLNode(LLNode *head)
 {
-	printf("\nHere\n");
-	BTNode *masterNode = (BTNode *)malloc(sizeof(BTNode));
-	masterNode->left = (BTNode *)malloc(sizeof(BTNode));
-	masterNode->right = (BTNode *)malloc(sizeof(BTNode));
-	int binaryHeight = BTNodeHeight(treeSize);
-
-	LLNode BTArray[nodeSize];
-	for (size_t i = 0; i < nodeSize; i++)
+	LLNode *ptr = head;
+	while (ptr != NULL)
 	{
-		BTArray[i] = *head;
-		head = head->next;
+		totalNode++;
+		printf("%d %d\n", ptr->identity, ptr->value);
+		ptr = ptr->next;
 	}
-
-	for (size_t i = 1; i < treeSize / 2; i++)
-	{
-		if ((i * 2) % 4 == 0)
-			continue;
-		//activeHeight = kaçıncı seviyede bulunduğunu tutar.
-		BTNode *temp = (BTNode *)malloc(sizeof(BTNode));
-
-		temp->left = (BTNode *)malloc(sizeof(BTNode));
-		temp->right = (BTNode *)malloc(sizeof(BTNode));
-
-		temp->identity = BTArray[2 * i - 1].identity;
-		temp->value = BTArray[2 * i - 1].value;
-		temp->left->identity = BTArray[2 * i - 2].identity;
-		temp->left->value = BTArray[2 * i - 2].value;
-		temp->right->identity = BTArray[2 * i].identity;
-		temp->right->value = BTArray[2 * i].value;
-
-		printf("Root ID/VAL: %d - %d \t Left ID/VAL: %d - %d \t Right ID/VAL: %d - %d\n",
-			   temp->identity, temp->value, temp->left->identity, temp->left->value,
-			   temp->right->identity, temp->right->value);
-	}
-
-	// masterNode->identity = BTArray[(int)pow(2, binaryHeight - 1)].identity;
-	// masterNode->value = BTArray[(int)pow(2, binaryHeight - 1)].value;
-	// masterNode->left = createBTree(masterNode->left, );
-	// masterNode->right = createBTree(masterNode->right, );
-
-	return masterNode;
 }
 
-//for içinde recursive fonksiyon olabilir atama yapmak için.
+void printBT(BTNode *BTComing, int activeHeight, int leftIs, int rootData)
+{
+	if (activeHeight > realBTHeight(BTComing))
+		return;
+	if (BTComing == NULL)
+		return;
+	else if (activeHeight == 1)
+	{
+		printf("%d %d ", BTComing->identity, BTComing->value);
+		if (leftIs == 1 && rootData != -1)
+			printf("(%d %s) ", rootData, "L");
+		else if (rootData != -1)
+			printf("(%d %s) ", rootData, "R");
+	}
+	else
+	{
+		printBT(BTComing->left, activeHeight - 1, 1, BTComing->value);
+		printBT(BTComing->right, activeHeight - 1, 0, BTComing->value);
+	}
+}
+
+int realBTHeight(BTNode *masterHead)
+{
+	BTNode *BTPtr = masterHead;
+	if (BTPtr == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		int leftHeight = realBTHeight(BTPtr->left);
+		int rightHeight = realBTHeight(BTPtr->right);
+
+		if (leftHeight > rightHeight)
+			return leftHeight + 1;
+		else
+			return rightHeight + 1;
+	}
+}
